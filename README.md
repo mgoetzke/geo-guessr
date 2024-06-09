@@ -6,7 +6,6 @@ Frontend runs at `localhost:3000` and backend at `localhost:5000`
 
 
 TODO:
-Add json asset
 Add D3 for rendering globe
 Add distance calculation
 Display hints

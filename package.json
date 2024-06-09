@@ -2,9 +2,13 @@
     "name": "geo-suessr",
     "version": "1.0.0",
     "scripts": {
-        "start": "concurrently \"cd backend && node index.ts\" \"cd client && npm start\""
+        "start": "concurrently \"cd backend && tsc && node dist/index.js\" \"cd client && npm start\""
     },
     "dependencies": {
+        "@types/express": "^4.17.21",
         "concurrently": "^6.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5"
     }
 }
