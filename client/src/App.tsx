@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
-function App() {
-  const [city, setCity] = useState('');
+export const App: React.FC = () =>  {
+  const [city, setCity] = useState<string>('');
 
   useEffect(() => {
     async function fetchCity() {
