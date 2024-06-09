@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { CorrectAnswer, IncorrectAnswer, DisplayCity } from '../../types/types';
+import CityInfo from './components/CityInfo/CityInfo';
 
 export const App: React.FC = () =>  {
   const [landmark, setLandmark] = useState<string>('');
@@ -57,7 +58,7 @@ export const App: React.FC = () =>  {
         <h1>Random landmark: {landmark}</h1>
         <h3>Answers:</h3>
         {cityButtons}
-        <h1>{cityInfo ? 'well done!' : null}</h1>
+        <h1>{cityInfo ? <CityInfo cityInfo={cityInfo}/> : null}</h1>
         <h1>{distance ? `not quite! you are ${distance} miles off`: null}</h1>
       </header>
     </div>
