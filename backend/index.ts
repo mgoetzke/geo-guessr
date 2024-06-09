@@ -5,22 +5,40 @@ const app = express();
 
 const port = 5000;
 
-app.use(cors());
-app.use(express.json());
-
-let currentCity: City | null = null;
+type Direction = 'N' | 'S' | 'E' | 'W' | 'NW' | 'NE' | 'SW' | 'SE';
 
 interface City {
     name: string;
     name_native: string;
     country: string;
     continent: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
     population: string;
     founded: string;
     landmarks: string[];
 }
+
+type DisplayCity = Omit<City, 'landmarks' | 'latitude' | 'longitude'>;
+
+
+interface Answer {
+    correct: boolean;
+}
+
+interface CorrectAnswer extends Answer {
+    city: DisplayCity
+}
+
+interface IncorrectAnswer extends Answer {
+    distance: number;
+    direction: Direction;
+}
+
+app.use(cors());
+app.use(express.json());
+
+let currentCity: City | null = null;
 
 const getRandomCity = (): City => {
     const cities: City[] = citiesData.cities;
@@ -47,11 +65,30 @@ app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string; cityLi
     res.json({ landmark, cityList });
 });
 
-app.post('/handle-guess', (req: any, res: { json: (arg0: { result: boolean; }) => void; }) => {
+app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | IncorrectAnswer) => void; }) => {
     const { cityName } = req.body;
     const isCorrectAnswer = cityName === currentCity?.name;
 
-    res.json({ result: isCorrectAnswer });
+    const result: CorrectAnswer | IncorrectAnswer = isCorrectAnswer && currentCity ? {
+        correct: true,
+        city : {
+            name: currentCity.name,
+            name_native: currentCity.name_native,
+            country: currentCity.country,
+            continent: currentCity.continent,
+            population: currentCity.population,
+            founded: currentCity.founded,
+
+        }
+    }
+    : 
+    {
+        correct: false,
+        distance: 500,
+        direction: 'N'
+    }
+
+    res.json({ ...result });
 });
 
 app.listen(port, () => {
