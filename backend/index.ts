@@ -6,6 +6,9 @@ const app = express();
 const port = 5000;
 
 app.use(cors());
+app.use(express.json());
+
+let currentCity: City | null = null;
 
 interface City {
     name: string;
@@ -25,9 +28,30 @@ const getRandomCity = (): City => {
     return city;
 }
 
-app.get('/random-city', (req: any, res: { json: (arg0: { city: string; }) => void; }) => {
+const getValidCities = (): string[] => {
+    const cities: City[] = citiesData.cities;
+    return cities.map(city => city.name);
+}
+
+const getRandomLandmark = (landmarks: string[]): string => {
+    const landmark = landmarks[Math.floor(Math.random() * landmarks.length)];
+    return landmark;
+}
+
+app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string; cityList: string[] }) => void; }) => {
     const city = getRandomCity();
-    res.json({ city: city.name });
+    currentCity = city;
+    const landmark = getRandomLandmark(city.landmarks);
+    const cityList = getValidCities();
+
+    res.json({ landmark, cityList });
+});
+
+app.post('/handle-guess', (req: any, res: { json: (arg0: { result: boolean; }) => void; }) => {
+    const { cityName } = req.body;
+    const isCorrectAnswer = cityName === currentCity?.name;
+
+    res.json({ result: isCorrectAnswer });
 });
 
 app.listen(port, () => {
