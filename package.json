@@ -1,0 +1,10 @@
+{
+    "name": "geo-suessr",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "concurrently \"cd backend && node index.js\" \"cd client && npm start\""
+    },
+    "dependencies": {
+        "concurrently": "^6.0.0"
+    }
+}
