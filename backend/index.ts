@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+const  {calculateRadialDistanceBetweenCoordinates: findDistance, findBearing: findDirection } = require('./utils/utils');
+
 const port = 5000;
 
 type Direction = 'N' | 'S' | 'E' | 'W' | 'NW' | 'NE' | 'SW' | 'SE';
@@ -27,7 +29,7 @@ interface Answer {
 }
 
 interface CorrectAnswer extends Answer {
-    city: DisplayCity
+    city: DisplayCity;
 }
 
 interface IncorrectAnswer extends Answer {
@@ -69,7 +71,22 @@ app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | Incorre
     const { cityName } = req.body;
     const isCorrectAnswer = cityName === currentCity?.name;
 
-    const result: CorrectAnswer | IncorrectAnswer = isCorrectAnswer && currentCity ? {
+    if (!isCorrectAnswer && currentCity) {
+        const sourceCoordinates = {latitude: currentCity.latitude, longitude: currentCity.longitude};
+        const destinationCoordinates = { latitude: -33.865143, longitude: 151.209900 };
+
+        const distance = findDistance(sourceCoordinates, destinationCoordinates)
+        const direction = findDirection(sourceCoordinates, destinationCoordinates)
+
+        res.json({
+            correct: false,
+            distance,
+            direction
+        });
+    }
+
+    else if (isCorrectAnswer && currentCity){
+        const result = {
         correct: true,
         city : {
             name: currentCity.name,
@@ -81,14 +98,9 @@ app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | Incorre
 
         }
     }
-    : 
-    {
-        correct: false,
-        distance: 500,
-        direction: 'N'
+    res.json({ ...result });
     }
 
-    res.json({ ...result });
 });
 
 app.listen(port, () => {

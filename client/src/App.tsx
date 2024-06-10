@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { CorrectAnswer, IncorrectAnswer, DisplayCity } from '../../types/types';
+import { CorrectAnswer, IncorrectAnswer, DisplayCity, Direction } from '../../types/types';
 import CityInfo from './components/CityInfo/CityInfo';
 
 export const App: React.FC = () =>  {
@@ -8,7 +8,7 @@ export const App: React.FC = () =>  {
   const [cityList, setCityList] = useState<string[]>([]);
   const [checkAnswer, setCheckAnswer] = useState<boolean | null>(null);
   const [cityInfo, setCityInfo] = useState<DisplayCity | null>(null);
-  const [distance, setDistance] = useState<number |null>(null);
+  const [direction, setDirection] = useState<Direction | null>(null);
 
   useEffect(() => {
     async function handleSetupGame() {
@@ -17,7 +17,7 @@ export const App: React.FC = () =>  {
       setLandmark(data.landmark);
       setCityList(data.cityList);
       setCityInfo(null);
-      setDistance(null);
+      setDirection(null);
       setCheckAnswer(null);
     }
 
@@ -40,7 +40,7 @@ export const App: React.FC = () =>  {
         setCityInfo(result.city);
       } else {
         setCheckAnswer(false);
-        setDistance(result.distance);
+        setDirection(result.direction);
       }
 
     } catch (error) {
@@ -59,7 +59,7 @@ export const App: React.FC = () =>  {
         <h3>Answers:</h3>
         {cityButtons}
         <h1>{cityInfo ? <CityInfo cityInfo={cityInfo}/> : null}</h1>
-        <h1>{distance ? `not quite! you are ${distance} miles off`: null}</h1>
+        <h1>{direction ? `Not quite! Head ${direction}` : null }</h1>
       </header>
     </div>
   );
