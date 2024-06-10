@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { CorrectAnswer, IncorrectAnswer, DisplayCity, Direction } from '../../types/types';
 import CityInfo from './components/CityInfo/CityInfo';
+import Map from './components/Map'
 
 export const App: React.FC = () =>  {
   const [landmark, setLandmark] = useState<string>('');
@@ -24,14 +25,14 @@ export const App: React.FC = () =>  {
     handleSetupGame();
   }, []);
 
-  const handleCheckAnswer = async (cityName: string) => {
+  const handleCheckAnswer = async ({countryName, latitude, longitude} : {countryName: string, latitude: number, longitude: number}) => {
     try {
       const response = await fetch('http://localhost:5000/handle-guess', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({cityName: cityName}),
+        body: JSON.stringify({countryName: countryName, latitude: latitude, longitude: longitude}),
       });
 
       const result: CorrectAnswer | IncorrectAnswer = await response.json();
@@ -48,16 +49,11 @@ export const App: React.FC = () =>  {
     }
   }
 
-  const cityButtons = cityList.map( c => {
-    return (<button key={c} onClick={() => {handleCheckAnswer(c)}}>{c}</button>)
-  })
-
   return (
     <div className="App">
       <header className="App-header">
         <h1>Random landmark: {landmark}</h1>
-        <h3>Answers:</h3>
-        {cityButtons}
+        <Map handleMapClick={handleCheckAnswer}/>
         <h1>{cityInfo ? <CityInfo cityInfo={cityInfo}/> : null}</h1>
         <h1>{direction ? `Not quite! Head ${direction}` : null }</h1>
       </header>

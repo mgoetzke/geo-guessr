@@ -18,7 +18,7 @@
     {
       "name": "New York City",
       "name_native": "New York City",
-      "country": "USA",
+      "country": "United States",
       "continent": "North America",
       "latitude": "40.730610",
       "longitude": "-73.935242",
@@ -48,7 +48,7 @@
     {
       "name": "Moscow",
       "name_native": "Москва",
-      "country": "Russia",
+      "country": "Russian Federation",
       "continent": "Europe",
       "latitude": "55.751244",
       "longitude": "37.618423",

@@ -68,12 +68,14 @@ app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string; cityLi
 });
 
 app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | IncorrectAnswer) => void; }) => {
-    const { cityName } = req.body;
-    const isCorrectAnswer = cityName === currentCity?.name;
+    const { countryName, latitude, longitude } = req.body;
+    console.log(countryName, latitude, longitude);
+    console.log(currentCity)
+    const isCorrectAnswer = countryName === currentCity?.country;
 
     if (!isCorrectAnswer && currentCity) {
         const sourceCoordinates = {latitude: currentCity.latitude, longitude: currentCity.longitude};
-        const destinationCoordinates = { latitude: -33.865143, longitude: 151.209900 };
+        const destinationCoordinates = { latitude, longitude };
 
         const distance = findDistance(sourceCoordinates, destinationCoordinates)
         const direction = findDirection(sourceCoordinates, destinationCoordinates)
