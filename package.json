@@ -9,6 +9,7 @@
         "concurrently": "^6.0.0"
     },
     "devDependencies": {
+        "@types/jest": "^29.5.12",
         "typescript": "^5.4.5"
     }
 }

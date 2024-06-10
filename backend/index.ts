@@ -48,23 +48,17 @@ const getRandomCity = (): City => {
     return city;
 }
 
-const getValidCities = (): string[] => {
-    const cities: City[] = citiesData.cities;
-    return cities.map(city => city.name);
-}
-
 const getRandomLandmark = (landmarks: string[]): string => {
     const landmark = landmarks[Math.floor(Math.random() * landmarks.length)];
     return landmark;
 }
 
-app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string; cityList: string[] }) => void; }) => {
+app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string }) => void; }) => {
     const city = getRandomCity();
     currentCity = city;
     const landmark = getRandomLandmark(city.landmarks);
-    const cityList = getValidCities();
 
-    res.json({ landmark, cityList });
+    res.json({ landmark });
 });
 
 app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | IncorrectAnswer) => void; }) => {
