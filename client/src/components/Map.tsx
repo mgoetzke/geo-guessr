@@ -25,8 +25,7 @@ export default function MapChart(props: Props) {
                         <Geography key={geo.rsmKey}
                             onClick={handleClick(geo.properties)}
                             geography={geo} 
-                            fill="#FF5533"
-                            stroke="#000000" 
+                            fill="#90a959"
                             style={{
                                 default: { outline: "none" },
                                 hover: { outline: "none" },

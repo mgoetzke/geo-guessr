@@ -1,26 +1,25 @@
 .Card {
-    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     background-color: #D9DCD6;
     border-radius: 6px;
-
+    width: 100%;
 }
 
 .Card-Header {
-    background-color: #16425b;
+    box-sizing: border-box;
+    background-color: #6457a6;
     width: 100%;
     color: #D9DCD6;
     font-size: 24px;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding: 6px;
 }
 
 .Card-Body {
     font-size: 12px;
     display: flex;
-    color: #16425b;
+    color: #6457a6;
     flex-direction: column;
     align-items: flex-start;
     padding: 12px;

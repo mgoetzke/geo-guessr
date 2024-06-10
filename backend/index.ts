@@ -69,8 +69,6 @@ app.get('/start-game', (req: any, res: { json: (arg0: { landmark: string; cityLi
 
 app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | IncorrectAnswer) => void; }) => {
     const { countryName, latitude, longitude } = req.body;
-    console.log(countryName, latitude, longitude);
-    console.log(currentCity)
     const isCorrectAnswer = countryName === currentCity?.country;
 
     if (!isCorrectAnswer && currentCity) {
@@ -82,7 +80,7 @@ app.post('/handle-guess', (req: any, res: { json: (arg0: CorrectAnswer | Incorre
 
         res.json({
             correct: false,
-            distance,
+            distance: Math.trunc(distance),
             direction
         });
     }

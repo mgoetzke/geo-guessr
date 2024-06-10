@@ -6,8 +6,7 @@ Frontend runs at `localhost:3000` and backend at `localhost:5000`
 
 
 TODO:
-Add D3 for rendering globe
-Add distance calculation
-Display hints
-Display full city information on success/failure
+Type sharing between FE and BE
+Map library with lat lon handling
+Host own geofile
 Tests
